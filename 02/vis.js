@@ -1,3 +1,4 @@
+/* global d3 */
     const width = 960;
     const height = 500;
 
@@ -9,9 +10,9 @@
     const forceLabels = d3.layout.force()
         .size([width, height]);
 
-    const svg = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height);
+    const svg = d3.select('body').append('svg')
+        .attr('width', width)
+        .attr('height', height);
 
     const tip = d3.tip()
       .attr('class', 'd3-tip')
@@ -20,7 +21,7 @@
 
     svg.call(tip);
 
-    d3.csv("org.csv", (error, org) => {
+    d3.csv('org.csv', (error, org) => {
       const color = d3.scale.category20();
       const indexMap = getIndexMap(org);
       const nameMap = getNameMap(org);
@@ -30,13 +31,13 @@
       let labels = [];
       let displayedLinks = [];
       const graph = {
-        "links": links,
-        "nodes": org
+        links,
+        nodes: org,
       };
 
-      let node = svg.selectAll(".node");
-      let link = svg.selectAll(".link");
-      let label = svg.selectAll(".label");
+      let node = svg.selectAll('.node');
+      let link = svg.selectAll('.link');
+      let label = svg.selectAll('.label');
 
       force
         .nodes(graph.nodes)
@@ -46,9 +47,9 @@
       function initTeam() {
         displayedLinks = [];
         labels = [
-          {name: 'Web'},
-          {name: 'Core'},
-          {name: 'Data'}
+          { name: 'Web' },
+          { name: 'Core' },
+          { name: 'Data' },
         ];
 
         force.charge(-50).gravity(0.05);
@@ -58,7 +59,7 @@
       function initHierarchy() {
         displayedLinks = links;
         labels = [
-          {name:"RJMetrics Engineering"}
+          { name: 'RJMetrics Engineering' },
         ];
 
         force.charge(-220).gravity(0.05);
@@ -68,8 +69,8 @@
       function initProject() {
         displayedLinks = [];
         labels = [];
-        for(i=0; i<projects.length; i++) {
-          labels.push( {name:projects[i]} );
+        for (let i = 0; i < projects.length; i += 1) {
+          labels.push({ name: projects[i] });
         }
 
         force.charge(-10).gravity(0.05);
@@ -78,32 +79,32 @@
 
       function start() {
         link = link.data(displayedLinks);
-        link.enter().append("line")
-          .attr("class", "link")
-          .style("stroke-width", d => Math.sqrt(d.value));
+        link.enter().append('line')
+          .attr('class', 'link')
+          .style('stroke-width', d => Math.sqrt(d.value));
         link.exit().remove();
         force.links(displayedLinks).start();
 
         node = node.data(force.nodes());
-        node.enter().append("circle")
-            .attr("class", "node")
-            .attr("r", 5)
-            .style("fill", d => color(d.team))
+        node.enter().append('circle')
+            .attr('class', 'node')
+            .attr('r', 5)
+            .style('fill', d => color(d.team))
             .call(force.drag)
-            .on("mousedown", () => { d3.event.stopPropagation(); })
+            .on('mousedown', () => { d3.event.stopPropagation(); })
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
         node.exit().remove();
-        node.append("title")
+        node.append('title')
             .text(d => d.name);
-        label = svg.selectAll(".label")
+        label = svg.selectAll('.label')
           .data(labels);
-        label.enter().append("text")
-          .attr("class", "label")
-          .attr("font-family", "sans-serif")
-          .attr("font-size", "20px")
-          .attr("fill", "#999");
+        label.enter().append('text')
+          .attr('class', 'label')
+          .attr('font-family', 'sans-serif')
+          .attr('font-size', '20px')
+          .attr('fill', '#999');
         label.exit().remove();
 
         forceLabels.nodes(labels).start();
@@ -111,26 +112,26 @@
       }
 
       const hierarchy = () => {
-        link.attr("x1", d => d.source.x)
-            .attr("y1", d => d.source.y)
-            .attr("x2", d => d.target.x)
-            .attr("y2", d => d.target.y);
+        link.attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
 
-        node.attr("cx", d => d.x)
-            .attr("cy", d => d.y);
+        node.attr('cx', d => d.x)
+            .attr('cy', d => d.y);
 
-        label.attr("x", d => d.x)
-             .attr("y", d => d.y);
-       };
+        label.attr('x', d => d.x)
+             .attr('y', d => d.y);
+      };
 
-      const team = e => {
+      const team = (e) => {
         const k = 6 * e.alpha;
         function getAnchor(team, dir) {
-          if (dir == 'x') {
-            result = ['Web', 'Core'].indexOf(team) > -1 ? true : false;
-          }
-          else {
-            result = ['Web', 'Data'].indexOf(team) > -1 ? true : false;
+          let result;
+          if (dir === 'x') {
+            result = ['Web', 'Core'].indexOf(team) > -1;
+          } else {
+            result = ['Web', 'Data'].indexOf(team) > -1;
           }
           return result;
         }
@@ -145,14 +146,14 @@
           o.x += getAnchor(o.name, 'x') ? k : -k;
         });
 
-        node.attr("cx", d => d.x)
-            .attr("cy", d => d.y);
+        node.attr('cx', d => d.x)
+            .attr('cy', d => d.y);
 
-        label.attr("x", d => d.x)
-            .attr("y", d => d.y);
+        label.attr('x', d => d.x)
+            .attr('y', d => d.y);
       };
 
-      const project = e => {
+      const project = (e) => {
         const k = 0.1 * e.alpha;
         graph.nodes.forEach((o, i) => {
           o.y += (fociMap[o.project].y - o.y) * k;
@@ -161,15 +162,15 @@
 
         labels.forEach((o, i) => {
           o.y += (fociMap[o.name].y - o.y) * k;
-          o.x += (fociMap[o.name].x + 100 - o.x) * k;
+          o.x += ((fociMap[o.name].x + 100) - o.x) * k;
         });
 
         node
-            .attr("cx", d => d.x)
-            .attr("cy", d => d.y);
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y);
         label
-            .attr("x", d => d.x)
-            .attr("y", d => d.y);
+            .attr('x', d => d.x)
+            .attr('y', d => d.y);
       };
 
       const forceFns = [team, hierarchy, project];
@@ -178,22 +179,22 @@
       let forceFn = forceFns[forceFnIndex];
 
       initForceFns[forceFnIndex]();
-      force.on("tick", forceFn);
+      force.on('tick', forceFn);
       start();
 
       function nextForceFn() {
         forceFnIndex += 1;
-        if (forceFnIndex == forceFns.length) {
+        if (forceFnIndex === forceFns.length) {
           forceFnIndex = 0;
         }
 
         forceFn = forceFns[forceFnIndex];
-        force.on("tick", forceFn);
+        force.on('tick', forceFn);
       }
 
-      d3.select("body")
-          .on("mousedown", mousedown)
-          .on("touchstart", mousedown);
+      d3.select('body')
+          .on('mousedown', mousedown)
+          .on('touchstart', mousedown);
 
       function mousedown() {
         nextForceFn();
@@ -203,16 +204,16 @@
     });
 
     function getIndexMap(items) {
-      map = {};
-      for(i=0; i<items.length; i++) {
+      const map = {};
+      for (let i = 0; i < items.length; i += 1) {
         map[i] = items[i];
       }
       return map;
     }
 
     function getNameMap(items) {
-      map = {};
-      for(i=0; i<items.length; i++) {
+      const map = {};
+      for (let i = 0; i < items.length; i += 1) {
         map[items[i].name.trim()] = i;
       }
       return map;
@@ -225,17 +226,17 @@
       const dy = 60;
       const dx = 0;
 
-      for(i=0; i<items.length; i++) {
-        y = baseY + (i*dy);
-        map[items[i]] = { x: baseX+(i*dx), y: baseY+(i*dy) };
+      for (let i = 0; i < items.length; i += 1) {
+        const y = baseY + (i * dy);
+        map[items[i]] = { x: baseX + (i * dx), y: baseY + (i * dy) };
       }
 
       return map;
     }
 
     function getProjects(items) {
-      projects = [];
-      for(i=0;i<items.length;i++) {
+      const projects = [];
+      for (let i = 0; i < items.length; i += 1) {
         if (projects.indexOf(items[i].project) < 0) {
           projects.push(items[i].project);
         }
@@ -245,17 +246,17 @@
 
     function getLinks(indexMap, nameMap, items) {
       const links = [];
-      for(i=0; i<items.length; i++) {
-        source = nameMap[items[i].name];
-        target = nameMap[items[i].manager];
-        color = "#CCC";
-        link = {
-          "source": source,
-          "target": target,
-          "color": color,
-          "value": 1,
-          "weight": 1
-        }
+      for (let i = 0; i < items.length; i += 1) {
+        const source = nameMap[items[i].name];
+        const target = nameMap[items[i].manager];
+        const color = '#CCC';
+        const link = {
+          source,
+          target,
+          color,
+          value: 1,
+          weight: 1,
+        };
         if (target != null) {
           links.push(link);
         }
