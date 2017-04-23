@@ -1,0 +1,27 @@
+name,role,team,manager,project
+Alex Mann,Software Engineer,Data,Connor McArthur,Aries
+Alex Smith,Software Engineer,Core,Ben Garvey,Ursus
+Andrew Madonna,Software Engineer,Data,Ben Garvey,Striketeam
+Ben Garvey,Engineering Manager,Web,Chris Merrick,Unassigned
+Bill Piel,Director of Engineering,Core,Chris Merrick,Sourcerer
+Buck Ryan,Senior Software Engineer,Core,Connor McArthur,Striketeam
+Cathy Lennon,Senior Software Engineer,Data,Connor McArthur,Unassigned
+Chris Capurso,Software Engineer,Core,Ben Garvey,Aries
+Chris Merrick,VP of Engineering,Data,Bob Moore,Unassigned
+Connor McArthur,Engineering Manager,Core,Chris Merrick,Unassigned
+Hooman Javaheri,Software Engineer,Data,Connor McArthur,Aries
+Jana Veliskova,Front End Engineer,Web,Ben Garvey,Striketeam
+Josh Karstendick,Software Engineer,Data,Connor McArthur,Gandalf
+Keith Gregory,Senior Software Engineer,Data,Connor McArthur,Ursus
+Kurt Wheeler,Software Engineer,Core,Ben Garvey,Sourcerer
+Matt Bilyeu,Software Engineer,Web,Connor McArthur,Gandalf
+Mike DeLaurentis,Senior Software Engineer,Data,Connor McArthur,Aries
+Owen Jones,Software Engineer,Data,Ben Garvey,Sourcerer
+Paul Santa Clara,Senior Software Engineer,Core,Ben Garvey,Aries
+Richard Clark,Software Engineer,Web,Ben Garvey,Migration
+Rob Sutton,DevOps Engineer,Core,Connor McArthur,Boxcutter
+Rohan Shah,Software Engineer,Data,Connor McArthur,Striketeam
+Steve Cirner,Software Engineer,Core,Connor McArthur,Gandalf
+Tim Visher,Software Engineer,Core,Connor McArthur,Boxcutter
+Yiannis Nicolaou,Senior Software Engineer,Web,Ben Garvey,Migration
+Bob Moore,PHPCEO,Exec,,Unassigned
